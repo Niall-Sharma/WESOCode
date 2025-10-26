@@ -63,6 +63,12 @@ void setup() {
   Serial.begin(9600);
 }
 
+
+
+/*
+  Handle RPM updates is a function that updates the RMP values based on the pulse ISR. 
+  The pulseISR triggers when 
+*/
 void handleRPMUpdates(){
   if (pulseReceived) {
     noInterrupts();
@@ -94,47 +100,7 @@ void handleRPMUpdates(){
   }
 }
 
-void loop() 
-{
-
- unsigned long currentTime = millis();
- //Serial.println(currentTime);
- int EPin = digitalRead(estopPin);
- Serial.println(EPin);
-
-
-
-  float reading = analogRead(loadPin);
-  Serial.println(reading);
-  float Vmeasured = reading / 1024.0 * 5;  // voltage at analog pin
-  float Vload = Vmeasured / 0.3125; // Voltage divider: R1 = 22k, R2 = 10k => Vin = Vmeasured * R2/(R1+R2) = 10k / 32k
-
-  bool loadConnected = Vload < loadThreshold;
-    Serial.println(Vload);
-    Serial.print("Input Voltage: ");
-    Serial.println(Vmeasured);
-
-
-// && (rpm > rpmEstopEna)
-/*
-if ((!loadConnected || digitalRead(estopPin) == HIGH)) { //PUT ON HIGH
-  if (!estopEngaged) {
-    estopEngaged = true;
-    braking = true;
-    Serial.println("Emergency Stop OR Load Disconnect Triggered");
-  }
-} else {
-  if (!estopEngaged) {
-    Serial.println("Load Connected");
-  }
-}
-*/
-
-  
-  // --- Handle RPM updates ---
-  
-
-   // --- Braking State (active deceleration) ---
+void breakingState(){
   if (braking) {
     Serial.println("Braking");
     actuatorPosition = 70;
@@ -144,9 +110,9 @@ if ((!loadConnected || digitalRead(estopPin) == HIGH)) { //PUT ON HIGH
    estopEngaged = false;
 
   }
+}
 
-
-  // --- Actuator Optimization ---
+void actuatorOptimization(){
   if (!braking && !estopEngaged && (currentTime - lastUpdateTime > updateInterval)) {
     lastUpdateTime = currentTime;
 
@@ -196,10 +162,53 @@ if ((!loadConnected || digitalRead(estopPin) == HIGH)) { //PUT ON HIGH
 
     lastRPM = rpm; // Save current RPM for next decision
   }
+}
+
+void loop() 
+{
+
+ unsigned long currentTime = millis();
+ //Serial.println(currentTime);
+ int EPin = digitalRead(estopPin);
+ Serial.println(EPin);
 
 
 
+  float reading = analogRead(loadPin);
+  Serial.println(reading);
+  float Vmeasured = reading / 1024.0 * 5;  // voltage at analog pin
+  float Vload = Vmeasured / 0.3125; // Voltage divider: R1 = 22k, R2 = 10k => Vin = Vmeasured * R2/(R1+R2) = 10k / 32k
 
+  bool loadConnected = Vload < loadThreshold;
+    Serial.println(Vload);
+    Serial.print("Input Voltage: ");
+    Serial.println(Vmeasured);
+
+
+// && (rpm > rpmEstopEna)
+/*
+if ((!loadConnected || digitalRead(estopPin) == HIGH)) { //PUT ON HIGH
+  if (!estopEngaged) {
+    estopEngaged = true;
+    braking = true;
+    Serial.println("Emergency Stop OR Load Disconnect Triggered");
+  }
+} else {
+  if (!estopEngaged) {
+    Serial.println("Load Connected");
+  }
+}
+*/
+
+  
+  // --- Handle RPM updates ---
+  handleRPMUpdates();
+
+   // --- Braking State (active deceleration) ---
+  breakingState();
+
+  // --- Actuator Optimization ---
+  actuatorOptimization():
   delay(500);
 }
 
