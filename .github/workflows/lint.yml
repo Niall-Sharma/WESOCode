@@ -8,4 +8,4 @@ jobs:
       - name: Arduino Lint
         uses: arduino/arduino-lint-action@v2
         with:
-          project-path: './WESO26_Code' 
+          path: './WESO26_Code' 
