@@ -7,7 +7,7 @@
 This is the codebase for the Iowa State Wind Energy Student Organization. 
 
 ## Linting 
-To use linting, run `bin/arduino-lint` within the code folder for the current WESO year.
+To use linting, run `bin/arduino-lint` in the terminal within the code folder for the current WESO year.
 
 ## Github Actions
 All actions must pass for code to push to main. 
