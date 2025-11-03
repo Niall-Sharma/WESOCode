@@ -3,5 +3,11 @@
 [![Compile Arduino Sketch](https://github.com/Niall-Sharma/WESOCode/actions/workflows/compile.yml/badge.svg)](https://github.com/Niall-Sharma/WESOCode/actions/workflows/compile.yml)
 [![.github/workflows/lint.yml](https://github.com/Niall-Sharma/WESOCode/actions/workflows/lint.yml/badge.svg)](https://github.com/Niall-Sharma/WESOCode/actions/workflows/lint.yml)
 
-# About 
+## About 
 This is the codebase for the Iowa State Wind Energy Student Organization. 
+
+## Linting 
+To use linting, run `bin/arduino-lint` within the code folder for the current WESO year.
+
+## Github Actions
+All actions must pass for code to push to main. 
