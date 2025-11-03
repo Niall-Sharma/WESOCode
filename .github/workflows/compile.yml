@@ -1,6 +1,10 @@
-on: 
-  - push
-  - pull_request
+
+name: Compile Arduino Sketch
+
+on:
+  push:
+  pull_request:
+
 jobs:
   compile:
     runs-on: ubuntu-latest
@@ -9,5 +13,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: arduino/compile-sketches@v1
         with:
-          sketch-paths:
-            - './WESO26_Code'
+          sketch-paths: |
+            ./WESO26_Code
