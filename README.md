@@ -11,3 +11,9 @@ To use linting, run `bin/arduino-lint` in the terminal within the code folder fo
 
 ## Github Actions
 All actions must pass for code to push to main. 
+
+## To do
+- [ ] Test Linear Actuator 
+- [ ] Get IR Sensor and write code to measure RPM.
+- [ ] Mock state machine with transitions
+- [ ] QBlade simulations
